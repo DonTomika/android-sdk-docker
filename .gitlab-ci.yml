@@ -3,15 +3,6 @@ image: docker:latest
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
-build_api-27-ndk:
-  stage: build
-  only:
-    - master
-  script:
-    - cd api-27-ndk
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:api-27-ndk" .
-    - docker push "$CI_REGISTRY_IMAGE:api-27-ndk"
-
 build_api-27-ndk-ubuntu:
   stage: build
   only:
@@ -20,15 +11,6 @@ build_api-27-ndk-ubuntu:
     - cd api-27-ndk-ubuntu
     - docker build --pull -t "$CI_REGISTRY_IMAGE:api-27-ndk-ubuntu" .
     - docker push "$CI_REGISTRY_IMAGE:api-27-ndk-ubuntu"
-
-build_api-28-ndk:
-  stage: build
-  only:
-    - master
-  script:
-    - cd api-28-ndk
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:api-28-ndk" .
-    - docker push "$CI_REGISTRY_IMAGE:api-28-ndk"
 
 build_api-28-ndk-ubuntu:
   stage: build
