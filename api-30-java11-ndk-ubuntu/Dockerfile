@@ -16,13 +16,13 @@ RUN apt-get install -y build-essential unzip git wget curl
 RUN apt-get install -y openjdk-11-jdk-headless
 
 # Install Ruby
-RUN apt-get install -y ruby ruby-dev ruby-dev
+RUN apt-get install -y ruby ruby-dev
 
 RUN gem install bundler -v '~> 1.0' -N
 RUN gem install bundler -v '~> 2.0' -N
 
 ENV ANDROID_HOME /opt/android-sdk-linux
-ENV SDK_TOOLS_VERSION 4333796
+ENV SDK_TOOLS_VERSION 6858069
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -30,22 +30,24 @@ ENV LANGUAGE en_US.UTF-8
 
 # Install Android SDK tools
 RUN mkdir -p /opt/android-sdk-linux && cd /opt \
-    && wget -q http://dl.google.com/android/repository/sdk-tools-linux-${SDK_TOOLS_VERSION}.zip -O android-sdk-tools.zip \
-    && unzip -q android-sdk-tools.zip -d ${ANDROID_HOME} \
-    && rm -f android-sdk-tools.zip \
+    && wget -q https://dl.google.com/android/repository/commandlinetools-linux-${SDK_TOOLS_VERSION}_latest.zip -O commandlinetools-linux.zip \
+    && unzip -q commandlinetools-linux.zip -d ${ANDROID_HOME} \
+    && rm -f commandlinetools-linux.zip \
+    && mkdir ${ANDROID_HOME}/cmdline-tools/latest \
+    && mv -f ${ANDROID_HOME}/cmdline-tools/* ${ANDROID_HOME}/cmdline-tools/latest \
     && mkdir -p /root/.android \
     && touch /root/.android/repositories.cfg
 
 # Accept Android SDK licences
-RUN yes | sdkmanager --licenses
+RUN yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses
 
 # Update packages
-RUN yes | sdkmanager --update
+RUN yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --update
 
 # Install selected packages
 ADD packages.txt /$ANDROID_HOME
 
 RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < /$ANDROID_HOME/packages.txt && \
-    yes | ${ANDROID_HOME}/tools/bin/sdkmanager ${PACKAGES}
+    yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager ${PACKAGES}
 
 CMD [ "/bin/bash", "-l" ]
