@@ -33,8 +33,9 @@ RUN mkdir -p /opt/android-sdk-linux && cd /opt \
     && wget -q https://dl.google.com/android/repository/commandlinetools-linux-${SDK_TOOLS_VERSION}_latest.zip -O commandlinetools-linux.zip \
     && unzip -q commandlinetools-linux.zip -d ${ANDROID_HOME} \
     && rm -f commandlinetools-linux.zip \
-    && mkdir ${ANDROID_HOME}/cmdline-tools/latest \
-    && mv -f ${ANDROID_HOME}/cmdline-tools/* ${ANDROID_HOME}/cmdline-tools/latest \
+    && mv ${ANDROID_HOME}/cmdline-tools ${ANDROID_HOME}/latest \
+    && mkdir ${ANDROID_HOME}/cmdline-tools \
+    && mv ${ANDROID_HOME}/latest ${ANDROID_HOME}/cmdline-tools \
     && mkdir -p /root/.android \
     && touch /root/.android/repositories.cfg
 
