@@ -1,5 +1,0 @@
-build-tools;29.0.3
-platform-tools
-platforms;android-29
-ndk;21.0.6113669
-cmake;3.10.2.4988404
