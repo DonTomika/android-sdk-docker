@@ -48,3 +48,12 @@ build_api-32-java11-ndk-ubuntu:
     - docker build --pull -t "$CI_REGISTRY_IMAGE:api-32-java11-ndk-ubuntu" .
     - docker push "$CI_REGISTRY_IMAGE:api-32-java11-ndk-ubuntu"
 
+build_api-33-java11-ndk-ubuntu:
+  stage: build
+  only:
+    - master
+  script:
+    - cd api-33-java11-ndk-ubuntu
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:api-33-java11-ndk-ubuntu" .
+    - docker push "$CI_REGISTRY_IMAGE:api-33-java11-ndk-ubuntu"
+
