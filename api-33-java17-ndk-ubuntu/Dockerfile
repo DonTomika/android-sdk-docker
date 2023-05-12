@@ -18,8 +18,8 @@ RUN apt-get update
 # Install build tools (make, gcc, etc.) and bash
 RUN apt-get install -y build-essential unzip git wget curl
 
-# Install Java 11
-RUN apt-get install -y openjdk-11-jdk-headless
+# Install Java 17
+RUN apt-get install -y openjdk-17-jdk-headless
 
 # Install Ruby
 RUN apt-get install -y ruby ruby-dev
